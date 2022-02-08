@@ -18,45 +18,36 @@ class LSTMTrainer:
     def train_step(self, x, y):
         self.optimizer.zero_grad()
         y_pred = self.model(x)
-        # loss = self.loss_fn(y_pred, y) # runs but you get 0 loss bc not multi-hot encoded
-        loss = self.loss_fn(y_pred, torch.argmax(y, dim=1)) # argmax vs max?
+        loss = self.loss_fn(y_pred, y) # 0.0 loss for some reason?
         loss.backward()
         self.optimizer.step()
         return loss
     
-    def validation(self, x, y):
+    def validate_step(self, x, y):
         y_pred = self.model(x)
-        loss = self.loss_fn(y_pred, torch.argmax(y, dim=1))
-        self.y_pred = y_pred.cpu().detach().numpy()
-        self.y_true = y.cpu().detach().numpy()
+        loss = self.loss_fn(y_pred, y) # 0.0 loss for some reason?
         return loss
     
-    def train(self, dataloader_train, batch_size=64, n_epochs=50, n_features=1):
+    def train(self, dataloader_train, dataloader_val, batch_size=64, n_epochs=50):
         for epoch in tqdm.tqdm(range(1, n_epochs + 1)):
             batch_losses = []
-            for x_batch, y_batch in dataloader_train:
+            for x_batch, y_batch in dataloader_train: # training on labels but in
                 x_batch, y_batch = x_batch.to(self.device), y_batch.to(self.device)
                 loss = self.train_step(x_batch, y_batch)
                 loss = float(loss.cpu().detach())
                 batch_losses.append(loss)
             epoch_loss = np.mean(batch_losses)
             self.train_losses.append(epoch_loss)  
-            
-            print (f'Epoch {epoch+0:03}: | Loss: {epoch_loss/len(dataloader_train)}')
-    
-    def evaluate(self, dataloader_test, batch_size=64, n_epochs=50, n_features=1):
-        for epoch in tqdm.tqdm(range(1, n_epochs+1)):
+        
             val_losses = []
-            for x_batch, y_batch in dataloader_test:
+            for x_batch, y_batch in dataloader_val:
                 x_batch, y_batch = x_batch.to(self.device), y_batch.to(self.device)
-                loss = self.validation(x_batch, y_batch)
+                loss = self.validate_step(x_batch, y_batch)
                 loss = float(loss.cpu().detach())
                 val_losses.append(loss)
             vpoch_loss = np.mean(val_losses)
             self.val_losses.append(vpoch_loss)
             
-            print (f'Epoch {epoch+0:03}: | Loss: {vpoch_loss/len(dataloader_test)}')
+            print(f'Epoch {epoch+0:03}: | Training Loss: {epoch_loss} | Validation Loss: {vpoch_loss}')
+    
         
-    def report(self, y_true, y_pred):
-        report = sklearn.metrics.classification_report(self.y_true, self.y_pred, target_names=["TNF", "R84", "PIC", "P3K", "FLA", "CpG", "FSL", "LPS", "UST"] , output_dict=True)
-        return report

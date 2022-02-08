@@ -1,11 +1,8 @@
 import numpy as np
 import random
 from core.getdata import *
+from core.utils import *
 from sklearn.preprocessing import StandardScaler
-
-def to_categorical(y, num_classes):
-    """ 1-hot encodes a tensor """
-    return np.eye(num_classes, dtype='uint8')[y]
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, ligands, polarizations, replicas, size): #to do: fix dataset classes so it initalizes as float 32
@@ -26,20 +23,19 @@ class Dataset(torch.utils.data.Dataset):
             self.labels = np.append(self.labels, np.array([i] * len(cd))) 
             self.data = np.row_stack((self.data, cd))
             
-        scaler = StandardScaler() # scaling data in the init
-        self.data = scaler.fit_transform(self.data) #
+        # scaler = StandardScaler() # scaling data in the init
+        # self.data = scaler.fit_transform(self.data) #
         self.data = self.data.reshape(self.data.shape[0], self.data.shape[1], 1)
-        # self.labels = self.labels.reshape(self.labels.shape[0], 1) # reshape to 3D data (runs, but you get 0.0 loss)
-        self.data = np.float32(self.data)
-        self.labels = np.int32(self.labels)
-        self.labels = to_categorical(self.labels, 9) #multi hot encoding 
+        # self.labels = self.labels.reshape(self.labels.shape[0], 1) 
+        self.data = np.float32(self.data) 
+        self.labels = np.int64(self.labels) 
             
         #labels = np.reshape(self.labels.T, (self.labels.shape[0], 1))
         #polarizations = np.reshape(self.polarizations.T, (self.polarizations.shape[0], 1))
         #self.dataset = np.concatenate((self.data, labels, polarizations), axis=1)
                                                
     def __len__(self):
-        return len(self.data), len(self.labels), len(self.polarizations)
+        return len(self.data)
     
     def __getitem__(self, row):
         return self.data[row], self.labels[row]#, self.polarizations[row]
