@@ -13,8 +13,8 @@ class LSTM(nn.Module):
         self.num_layers = num_layers
         self.device = torch.device(device)
 
-        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True)
-        self.fc = nn.Linear(hidden_size, 1)
+        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True) # 1, 9
+        self.fc = nn.Linear(hidden_size, 9) # 9, 9
         
         self.to(self.device)
         

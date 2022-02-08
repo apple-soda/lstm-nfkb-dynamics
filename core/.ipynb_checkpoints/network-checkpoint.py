@@ -13,8 +13,8 @@ class LSTM(nn.Module):
         self.num_layers = num_layers
         self.device = torch.device(device)
 
-        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True)
-        self.fc = nn.Linear(hidden_size, 1)
+        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True) # 1, 9
+        self.fc = nn.Linear(hidden_size, 9) # 9, 9
         
         self.to(self.device)
         
@@ -22,10 +22,8 @@ class LSTM(nn.Module):
         # import pdb; pdb.set_trace()
         # input must be (N,L,H) because batch first
         # Initializing hidden state and cell state for first input with zeros 
-        h0 = torch.zeros(self.num_layers, x.shape[0], self.hidden_size).requires_grad_() # num layers, B (batch size), H1 (hidden size)
-        c0 = torch.zeros(self.num_layers, x.shape[0], self.hidden_size).requires_grad_()
-        h0 = tf.cast(h0, tf.float64)
-        c0 = tf.cast(c0, tf.float64)
+        h0 = torch.zeros(self.num_layers, x.shape[0], self.hidden_size, dtype=torch.float32).requires_grad_() # num layers, B (batch size), H1 (hidden size)
+        c0 = torch.zeros(self.num_layers, x.shape[0], self.hidden_size, dtype=torch.float32).requires_grad_()
         h0 = h0.to(self.device)
         c0 = c0.to(self.device)
         # We need to detach as we are doing truncated backpropagation through time (BPTT)

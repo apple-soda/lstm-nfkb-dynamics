@@ -25,7 +25,7 @@ class LSTMTrainer:
     
     def validation(self, x, y):
         y_pred = self.model(x)
-        loss = self.loss_fn(y_pred, y)
+        loss = self.loss_fn(y_pred, torch.argmax(y, dim=1))
         return loss
     
     def train(self, dataloader_train, batch_size=64, n_epochs=50, n_features=1):
