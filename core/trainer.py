@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import tqdm 
 import numpy as np
+import sklearn.metrics
 
 class LSTMTrainer:
     def __init__(self, model, lr=1e-3, device="cpu"):
@@ -26,6 +27,8 @@ class LSTMTrainer:
     def validation(self, x, y):
         y_pred = self.model(x)
         loss = self.loss_fn(y_pred, torch.argmax(y, dim=1))
+        self.y_pred = y_pred.cpu().detach().numpy()
+        self.y_true = y.cpu().detach().numpy()
         return loss
     
     def train(self, dataloader_train, batch_size=64, n_epochs=50, n_features=1):
@@ -53,3 +56,7 @@ class LSTMTrainer:
             self.val_losses.append(vpoch_loss)
             
             print (f'Epoch {epoch+0:03}: | Loss: {vpoch_loss/len(dataloader_test)}')
+        
+    def report(self, y_true, y_pred):
+        report = sklearn.metrics.classification_report(self.y_true, self.y_pred, target_names=["TNF", "R84", "PIC", "P3K", "FLA", "CpG", "FSL", "LPS", "UST"] , output_dict=True)
+        return report
