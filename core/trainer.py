@@ -18,7 +18,7 @@ class LSTMTrainer:
         self.optimizer.zero_grad()
         y_pred = self.model(x)
         # loss = self.loss_fn(y_pred, y) # runs but you get 0 loss bc not multi-hot encoded
-        loss = self.loss_fn(y_pred, torch.argmax(y, dim=1))
+        loss = self.loss_fn(y_pred, torch.argmax(y, dim=1)) # argmax vs max?
         loss.backward()
         self.optimizer.step()
         return loss
