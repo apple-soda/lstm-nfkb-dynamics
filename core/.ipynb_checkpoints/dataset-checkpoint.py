@@ -1,15 +1,14 @@
 import numpy as np
-import pandas as pd
-import glob
-import torch
-import torchvision
-import matplotlib.pyplot as plt
 import random
 from core.getdata import *
 from sklearn.preprocessing import StandardScaler
 
+def to_categorical(y, num_classes):
+    """ 1-hot encodes a tensor """
+    return np.eye(num_classes, dtype='uint8')[y]
+
 class Dataset(torch.utils.data.Dataset):
-    def __init__(self, ligands, polarizations, replicas, size):
+    def __init__(self, ligands, polarizations, replicas, size): #to do: fix dataset classes so it initalizes as float 32
         self.data = np.empty([0, 98])
         self.labels = np.empty([0])
         #self.polarizations = np.empty([0])
@@ -29,7 +28,11 @@ class Dataset(torch.utils.data.Dataset):
             
         scaler = StandardScaler() # scaling data in the init
         self.data = scaler.fit_transform(self.data) #
-        self.data = self.data.reshape(self.data.shape[0], self.data.shape[1], 1) #reshape to 3D data
+        self.data = self.data.reshape(self.data.shape[0], self.data.shape[1], 1)
+        # self.labels = self.labels.reshape(self.labels.shape[0], 1) # reshape to 3D data (runs, but you get 0.0 loss)
+        self.data = np.float32(self.data)
+        self.labels = np.int32(self.labels)
+        self.labels = to_categorical(self.labels, 9) #multi hot encoding 
             
         #labels = np.reshape(self.labels.T, (self.labels.shape[0], 1))
         #polarizations = np.reshape(self.polarizations.T, (self.polarizations.shape[0], 1))
