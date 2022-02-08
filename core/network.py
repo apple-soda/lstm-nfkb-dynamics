@@ -35,6 +35,7 @@ class LSTM(nn.Module):
 
         # Reshaping the outputs in the shape of (batch_size, seq_length, hidden_size)
         # so that it can fit into the fully connected layer
+        
         out = out[:, -1, :]
 
         # Convert the final state to our desired output shape (batch_size, output_dim)
