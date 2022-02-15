@@ -33,7 +33,6 @@ class LSTM(nn.Module):
         # Forward propagation by passing in the input, hidden state, and cell state into the model
         out, (hn, cn) = self.lstm(x, (h0.detach(), c0.detach()))
         
-        
         # Reshaping the outputs in the shape of (batch_size, seq_length, hidden_size)
         # so that it can fit into the fully connected layer
         
