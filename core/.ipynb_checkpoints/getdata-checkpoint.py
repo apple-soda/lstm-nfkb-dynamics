@@ -8,6 +8,8 @@ import random
 
 class GetData(torch.utils.data.Dataset):
     def __init__(self, ligand, polarization, replicas, size):
+        super().__init__()
+        
         empty = np.empty([0, 98])
         for i in range(1, replicas + 1):
             loc = 'D:/Data/hoffmanlab/lstmtimeseries/data/' + ligand + polarization + str(i) + '.csv'

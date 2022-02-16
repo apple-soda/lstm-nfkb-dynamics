@@ -4,8 +4,9 @@ from core.getdata import *
 from core.utils import *
 from sklearn.preprocessing import StandardScaler
 
-class Dataset(torch.utils.data.Dataset):
+class DatasetPolar(torch.utils.data.Dataset):
     def __init__(self, ligands, polarizations, replicas, size): #to do: fix dataset classes so it initalizes as float 32
+        super().__init__()
         self.data = np.empty([0, 98])
         self.labels = np.empty([0])
         #self.polarizations = np.empty([0])
