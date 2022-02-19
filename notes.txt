@@ -4,6 +4,6 @@ to do:
 
 - confusion matrices for each polarization state
 - f1 score for each polarization state
-- accuracy for each polarization state
+- accuracy for each polarization state 
 - plot of both of the things above?
 
