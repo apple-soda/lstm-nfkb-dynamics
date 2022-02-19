@@ -1,2 +1,9 @@
 to do:
 - plot confusion matrices for prediction probabilities
+- heatmap?
+
+- confusion matrices for each polarization state
+- f1 score for each polarization state
+- accuracy for each polarization state
+- plot of both of the things above?
+
