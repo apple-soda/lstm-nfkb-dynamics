@@ -7,3 +7,11 @@ to do:
 - accuracy for each polarization state 
 - plot of both of the things above?
 
+Week 8
+- train a few different models then evaluating the accuracies across all polarization states for each model
+- switch around training/testing data splits
+- 5 cross fold validation
+- export datasets as csv to access across notebooks?
+- evaluate scores for a 1 layer LSTM model and compare to manuscript model
+- try 60:20:20
+
