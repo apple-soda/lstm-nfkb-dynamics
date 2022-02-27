@@ -16,3 +16,5 @@ Week 8
 - try 60:20:20
 
 KCFV function is written very poorly could go back and cut down on many lines 
+
+add evaluation function in trainer.py and do it for each kfcv epoch
