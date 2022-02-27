@@ -24,9 +24,7 @@ class DatasetPolar(torch.utils.data.Dataset):
             self.labels = np.append(self.labels, np.array([i] * len(cd))) 
             self.data = np.row_stack((self.data, cd))
             
-        # scaler = StandardScaler() # scaling data in the init
-        # self.data = scaler.fit_transform(self.data) #
-        self.data = self.data.reshape(self.data.shape[0], self.data.shape[1], 1)
+        self.data = self.data.reshape(self.data.shape[0], self.data.shape[1], 1) # adds an extra dimension
         # self.labels = self.labels.reshape(self.labels.shape[0], 1) 
         self.data = np.float32(self.data) 
         self.labels = np.int64(self.labels) 

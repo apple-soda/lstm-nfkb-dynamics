@@ -15,3 +15,4 @@ Week 8
 - evaluate scores for a 1 layer LSTM model and compare to manuscript model
 - try 60:20:20
 
+KCFV function is written very poorly could go back and cut down on many lines 
