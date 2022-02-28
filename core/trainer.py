@@ -87,10 +87,10 @@ class LSTMTrainer:
             self.y_true = np.hstack([self.y_true, y_true.T])
             y_pred = self.network(x)
             y_pred = F.softmax(y_pred, dim=1)
-            self.y_pred = y_pred.detach().cpu().numpy()
+            y_pred = y_pred.detach().cpu().numpy()
             self.y_prob = np.vstack([self.y_prob, y_pred])
             y_pred = np.argmax(y_pred, axis=1)
-            self.y_prob = np.hstack([self.y_prob, y_pred.T])
+            self.y_pred = np.hstack([self.y_pred, y_pred.T])
     
         self.y_prob = self.y_prob[batch_size:]
         self.y_pred = self.y_pred[batch_size:]
@@ -115,6 +115,7 @@ class LSTMTrainer:
             self.kfcv_prob.append([])
             self.kfcv_pred.append([])
             self.kfcv_true.append([])
+    
         """
         CV 1
         """
