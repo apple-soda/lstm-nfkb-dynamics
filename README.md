@@ -1,12 +1,13 @@
-# lstm-rnn-nfkb-trajectories
+# LSTM Multiclassification Model
+## Overview
+`architecture`: 3 LSTM layers, 1 Linear layer <br>
+`parameters`: input_dim: 98, hidden_dim: 98, output_dim: 9 <br>
+`input`: (N, L, H) where N = batch size, L = sequence length, H = hidden size
 
-<br>Long-Short Term Memory Network: multiclassification model of ligand identity across 5 polarization states given time series NFkB trajectories </br>
-<br>Parameters: 3 LSTM layers, 1 Linear layer, N (num_layers) = 2, L (sequence length/dimension) = 1, H (hidden_size) = 98, input_size = 1, output_size = 9 </br>
-<br>Models: </br>
-<br>lstm.pth - trained on naive dataset </br>
-<br>lstm1.pth - trained on replicated dataset </br>
-<br>lstm2.pth - trained on unreplicated dataset </br>
-<br>lstm3.pth - sandbox model </br>
+## Structure
+`core`: data preprocessing, network, training functions, visualizations <br>
+`notebooks`: machine learning pipeline, data analysis, plots <br>
+`models`: pretrained models and cross validation 
 
 
 
