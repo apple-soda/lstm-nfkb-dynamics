@@ -98,7 +98,7 @@ class LSTMTrainer:
         
         return self.y_prob, self.y_pred, self.y_true
         
-    def kfcv(self, dataset, k, save_dir, batch_size=65, n_epochs=50):
+    def kfcv(self, dataset, k, path, save_dir, batch_size=65, n_epochs=50):
         """
         Function for k-fold cross validation.
         Length of k_loss must equal k, returns a list of the loss history instead of storing it in self.
@@ -119,7 +119,7 @@ class LSTMTrainer:
         """
         CV 1
         """
-        self.load('../models/empty.pth')
+        self.load(path)
         dataset_train = torch.utils.data.ConcatDataset([d2, d3, d4, d5])
         dataset_val = d1
         dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=65, shuffle=True)
@@ -132,7 +132,7 @@ class LSTMTrainer:
         """
         CV 2
         """
-        self.load('../models/empty.pth')
+        self.load(path)
         dataset_train = torch.utils.data.ConcatDataset([d1, d3, d4, d5])
         dataset_val = d2
         dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=65, shuffle=True)
@@ -145,7 +145,7 @@ class LSTMTrainer:
         """
         CV 3
         """
-        self.load('../models/empty.pth')
+        self.load(path)
         dataset_train = torch.utils.data.ConcatDataset([d1, d2, d4, d5])
         dataset_val = d3
         dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=65, shuffle=True)
@@ -158,7 +158,7 @@ class LSTMTrainer:
         """
         CV 4
         """
-        self.load('../models/empty.pth')
+        self.load(path)
         dataset_train = torch.utils.data.ConcatDataset([d1, d2, d3, d5])
         dataset_val = d4
         dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=65, shuffle=True)
@@ -171,7 +171,7 @@ class LSTMTrainer:
         """
         CV 5
         """
-        self.load('../models/empty.pth')
+        self.load(path)
         dataset_train = torch.utils.data.ConcatDataset([d1, d2, d3, d4])
         dataset_val = d5
         dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=65, shuffle=True)
