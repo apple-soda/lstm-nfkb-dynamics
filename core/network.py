@@ -12,7 +12,7 @@ class LSTM(nn.Module):
         self.hidden_sizes = hidden_sizes # H1
         self.output_size = output_size
         self.num_layers = num_layers
-        self.device = torch.device(device)
+        self.device = device
 
         self.lstm = nn.LSTM(input_size, hidden_sizes, batch_first=True, num_layers=num_layers) # 1, 9
         self.fc1 = nn.Linear(hidden_sizes, output_size)

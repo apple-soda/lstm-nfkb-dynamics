@@ -12,11 +12,12 @@ import sklearn.metrics
 
 class LSTMTrainer:
     def __init__(self, model, lr=1e-3, device="cpu"):
-        self.optim = optim.Adam(model.parameters(), lr=lr)
-        self.device = torch.device(device)
-        self.network = model
+        # need to ensure everything is on the same device
+        self.device = device
+        self.network = model.to(self.device)
         self.loss_fn = nn.CrossEntropyLoss().to(self.device)
         self.loss_history = [[],[]]
+        self.optim = optim.Adam(self.network.parameters(), lr=lr)
         
         """
         Probabilities, y_pred, y_true, etc initalized in respective functions

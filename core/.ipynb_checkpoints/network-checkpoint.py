@@ -12,7 +12,7 @@ class LSTM(nn.Module):
         self.hidden_sizes = hidden_sizes # H1
         self.output_size = output_size
         self.num_layers = num_layers
-        self.device = torch.device(device)
+        self.device = device
 
         self.lstm = nn.LSTM(input_size, hidden_sizes, batch_first=True, num_layers=num_layers) # 1, 9
         self.fc1 = nn.Linear(hidden_sizes, output_size)
@@ -32,7 +32,6 @@ class LSTM(nn.Module):
         # If we don't, we'll backprop all the way to the start even after going through another batch
         # Forward propagation by passing in the input, hidden state, and cell state into the model
         out, (hn, cn) = self.lstm(x, (h0.detach(), c0.detach()))
-        
         
         # Reshaping the outputs in the shape of (batch_size, seq_length, hidden_size)
         # so that it can fit into the fully connected layer
