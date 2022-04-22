@@ -15,7 +15,8 @@ class LSTM(nn.Module):
         self.device = device
 
         self.lstm = nn.LSTM(input_size, hidden_sizes, batch_first=True, num_layers=num_layers) # 1, 9
-        self.fc1 = nn.Linear(hidden_sizes, output_size)
+        self.fc1 = nn.Linear(hidden_sizes, 512)
+        self.fc2 = nn.Linear(512, output_size)
         # self.fc2 = nn.Linear(hidden_sizes[1], output_size) # 9, 9, change last parameter to 1 or 9 depending on multi-hot encoding
         
         self.to(self.device) 
@@ -42,7 +43,8 @@ class LSTM(nn.Module):
         
         # N > 1 LAYERS
         hn = hn.view(self.num_layers, x.size(0), self.hidden_sizes)[-1]
-        out = self.fc1(hn)
+        x = self.fc1(hn)
+        out = self.fc2(x)
         
         return out
         
